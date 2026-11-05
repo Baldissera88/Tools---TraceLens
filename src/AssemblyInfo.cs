@@ -1,0 +1,13 @@
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+[assembly: AssemblyTitle("Trace Lens")]
+[assembly: AssemblyDescription("Log viewer for ConfigMgr, Intune and Windows logs")]
+[assembly: AssemblyProduct("Trace Lens")]
+[assembly: AssemblyCompany("Daniel L. Baldissera")]
+[assembly: AssemblyCopyright("Copyright \u00A9 2026 Daniel L. Baldissera")]
+[assembly: AssemblyVersion("1.3.2.0")]
+[assembly: AssemblyFileVersion("1.3.2.0")]
+[assembly: AssemblyInformationalVersion("1.3.2")]
+[assembly: ComVisible(false)]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.5", FrameworkDisplayName = ".NET Framework 4.5")]

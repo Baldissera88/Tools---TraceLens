@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*"
+           Name="Trace Lens"
+           Language="1033"
+           Codepage="1252"
+           Version="1.3.2"
+           Manufacturer="Daniel L. Baldissera"
+           UpgradeCode="2A8DF866-E6D4-4A44-ABAC-C64CA0D367B3">
+
+    <Package InstallerVersion="500"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Description="Trace Lens log viewer"
+             Comments="Log viewer for ConfigMgr, Intune and Windows logs" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Trace Lens is already installed." />
+
+    <Media Id="1" Cabinet="tracelens.cab" EmbedCab="yes" />
+
+    <Property Id="NETFX4RELEASE">
+      <RegistrySearch Id="NetFx4Release" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" Name="Release" Type="raw" Win64="yes" />
+    </Property>
+    <Condition Message="Trace Lens needs .NET Framework 4.5 or later.">Installed OR NETFX4RELEASE</Condition>
+
+    <Icon Id="TraceLens.ico" SourceFile="TraceLens.ico" />
+    <Property Id="ARPPRODUCTICON" Value="TraceLens.ico" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+    <Property Id="ARPNOREPAIR" Value="1" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLDIR" Name="Trace Lens">
+
+          <Component Id="TraceLensExe" Guid="27AB73D1-6E0C-4670-B02D-797273FC8CEE" Win64="yes">
+            <File Id="TraceLensExe" Name="TraceLens.exe" Source="TraceLens.exe" KeyPath="yes" DefaultVersion="1.3.2.0">
+              <Shortcut Id="StartMenuShortcut"
+                        Directory="ProgramMenuFolder"
+                        Name="Trace Lens"
+                        Description="Log viewer for ConfigMgr, Intune and Windows logs"
+                        WorkingDirectory="INSTALLDIR" />
+            </File>
+          </Component>
+
+          <Component Id="Registration" Guid="8AFDD0C0-8795-48C2-AE2D-822B8424F050" Win64="yes">
+            <RegistryValue Root="HKLM" Key="Software\Trace Lens" Name="InstallDir" Type="string" Value="[INSTALLDIR]" KeyPath="yes" />
+            <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\App Paths\TraceLens.exe" Type="string" Value="[INSTALLDIR]TraceLens.exe" />
+            <RegistryValue Root="HKLM" Key="Software\Classes\TraceLens.LogFile" Type="string" Value="Log file" />
+            <RegistryValue Root="HKLM" Key="Software\Classes\TraceLens.LogFile\DefaultIcon" Type="string" Value="&quot;[INSTALLDIR]TraceLens.exe&quot;,0" />
+            <RegistryValue Root="HKLM" Key="Software\Classes\TraceLens.LogFile\shell\open\command" Type="string" Value="&quot;[INSTALLDIR]TraceLens.exe&quot; &quot;%1&quot;" />
+            <RegistryValue Root="HKLM" Key="Software\Classes\.log\OpenWithProgids" Name="TraceLens.LogFile" Type="string" Value="" />
+            <RegistryValue Root="HKLM" Key="Software\Classes\.lo_\OpenWithProgids" Name="TraceLens.LogFile" Type="string" Value="" />
+            <RegistryValue Root="HKLM" Key="Software\Classes\.etl\OpenWithProgids" Name="TraceLens.LogFile" Type="string" Value="" />
+          </Component>
+
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" />
+    </Directory>
+
+    <Feature Id="Main" Title="Trace Lens" Level="1">
+      <ComponentRef Id="TraceLensExe" />
+      <ComponentRef Id="Registration" />
+    </Feature>
+  </Product>
+</Wix>
